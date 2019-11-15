@@ -3,15 +3,20 @@ package ixulabs.testwebview;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.View;
 import android.webkit.PermissionRequest;
 
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +28,26 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ProgressBar chromeProgressBar;
     WebView myWebView;
+    private ImageView imageView;
+    private View main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        imageView = (ImageView) findViewById(R.id.imagevieww);
+        main = findViewById(R.id.webview);
+        Button btn = (Button) findViewById(R.id.boton_screenshot);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap b = Screenshot.takescreenshotOfRootView(imageView);
+                Log.d("ENTE","entro");
+                imageView.setImageBitmap(b);
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -67,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         //inizialize client
 
         //load website by URL
+
+        myWebView.loadUrl("https://web-test.ixuah.com/webcam_boton.html");
 
         //myWebView.loadUrl("https://webcamtests.com/");  LINK CAMERA
         //myWebView.loadUrl("https://simpl.info/videoalpha/");  LINK VIDEO ALPHA
